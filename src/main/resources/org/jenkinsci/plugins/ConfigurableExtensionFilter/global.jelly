@@ -1,7 +1,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
   <f:section title="Extension Filter">
     <f:entry title="Exclusions"
-      description="Extensions classes to be disabled on this instance, optionaly specifying context">
+      description="Extension classes to be disabled on this instance, optionally specifying context">
       <f:repeatable field="exclusions">
         <table width="100%">
           <f:entry title="${%Extension class}" field="fqcn">
