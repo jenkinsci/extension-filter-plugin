@@ -1,0 +1,9 @@
+<div>
+    Fully qualified class name where the visibility of a descriptor is evaluated.
+    For example, when checking build steps to be exposed to a free style job,
+    context is <tt>hudson.model.FreeStyleProject</tt>. You can then forbid use
+    of maven build step by excluding <tt>hudson.tasks.Maven$DescriptorImpl</tt> in this context.
+    <p>
+    Use <tt>jenkins.model.Jenkins</tt> to hide global configuration for an extension.
+    Only affect descriptors, not extensions without web frontend.
+</div>
