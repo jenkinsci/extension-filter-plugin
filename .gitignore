@@ -1,0 +1,11 @@
+### IDEA
+.idea/
+*.ipr
+*.iml
+
+### Maven
+target/
+
+### Jenkins
+work/
+
