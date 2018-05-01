@@ -8,6 +8,9 @@ import jenkins.ExtensionFilter;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
     @Extension
@@ -28,8 +31,9 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
     public final static DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
 
         @Override
-        public boolean filter(Object context, Descriptor descriptor) {
-            return DESCRIPTOR.allows(context.getClass(), descriptor.getClass().getName());
+        public boolean filter(@CheckForNull Object context, @Nonnull Descriptor descriptor) {
+            Class contextClass = context == null ? null : context.getClass();
+            return DESCRIPTOR.allows(contextClass, descriptor.getClass().getName());
         }
     };
 
