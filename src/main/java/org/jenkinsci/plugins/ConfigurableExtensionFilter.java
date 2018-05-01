@@ -45,11 +45,11 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
         private Exclusion[] exclusions;
 
         public Exclusion[] getExclusions() {
-            return exclusions;
+            return exclusions.clone();
         }
 
         public void setExclusions(Exclusion[] exclusions) {
-            this.exclusions = exclusions;
+            this.exclusions = exclusions.clone();
         }
 
         @Override
