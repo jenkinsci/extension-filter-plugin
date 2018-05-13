@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins;
-import hudson.ExtensionComponent;
+
 import hudson.Extension;
+import hudson.ExtensionComponent;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.model.DescriptorVisibilityFilter;
@@ -10,6 +11,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
@@ -46,13 +48,16 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
             load();
         }
 
-        private Exclusion[] exclusions;
+        private Exclusion[] exclusions = new Exclusion[0];
 
         public Exclusion[] getExclusions() {
             return exclusions.clone();
         }
 
-        public void setExclusions(Exclusion[] exclusions) {
+        public void setExclusions(@Nonnull Exclusion[] exclusions) {
+            if (exclusions == null) {
+                throw new IllegalArgumentException("Passed 'exclusions' array must be non null");
+            }
             this.exclusions = exclusions.clone();
         }
 
