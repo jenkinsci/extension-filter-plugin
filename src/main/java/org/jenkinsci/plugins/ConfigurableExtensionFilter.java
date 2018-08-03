@@ -1,12 +1,17 @@
 package org.jenkinsci.plugins;
-import hudson.ExtensionComponent;
+
 import hudson.Extension;
+import hudson.ExtensionComponent;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.model.DescriptorVisibilityFilter;
 import jenkins.ExtensionFilter;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
@@ -28,8 +33,9 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
     public final static DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
 
         @Override
-        public boolean filter(Object context, Descriptor descriptor) {
-            return DESCRIPTOR.allows(context.getClass(), descriptor.getClass().getName());
+        public boolean filter(@CheckForNull Object context, @Nonnull Descriptor descriptor) {
+            Class contextClass = context == null ? null : context.getClass();
+            return DESCRIPTOR.allows(contextClass, descriptor.getClass().getName());
         }
     };
 
@@ -42,14 +48,17 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
             load();
         }
 
-        private Exclusion[] exclusions;
+        private Exclusion[] exclusions = new Exclusion[0];
 
         public Exclusion[] getExclusions() {
-            return exclusions;
+            return exclusions.clone();
         }
 
-        public void setExclusions(Exclusion[] exclusions) {
-            this.exclusions = exclusions;
+        public void setExclusions(@Nonnull Exclusion[] exclusions) {
+            if (exclusions == null) {
+                throw new IllegalArgumentException("Passed 'exclusions' array must be non null");
+            }
+            this.exclusions = exclusions.clone();
         }
 
         @Override
