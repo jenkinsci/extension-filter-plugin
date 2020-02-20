@@ -3,5 +3,5 @@
   This view is used to render the installed plugins page.
 -->
 <div>
-  Allow to define a list of <a href="https://wiki.jenkins-ci.org/display/JENKINS/Extension+points">extensions</a> to be disabled on this instance.
+  Allow to define a list of <a href="https://jenkins.io/doc/developer/extensions/">extensions</a> to be disabled on this instance.
 </div>
