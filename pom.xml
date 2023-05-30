@@ -7,13 +7,12 @@
   </parent>
 
   <artifactId>extension-filter</artifactId>
-  <version>${revision}${changelist}</version>
+  <version>${changelist}</version>
   <packaging>hpi</packaging>
   <url>https://plugins.jenkins.io/extension-filter</url>
 
   <properties>
-    <revision>1.1</revision>
-    <changelist>-SNAPSHOT</changelist>
+    <changelist>999999-SNAPSHOT</changelist>
     <gitHubRepo>jenkinsci/extension-filter-plugin</gitHubRepo>
     <jenkins.version>2.375.4</jenkins.version>
   </properties>
