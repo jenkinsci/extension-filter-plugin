@@ -3,17 +3,19 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>3.9</version>
+    <version>4.64</version>
   </parent>
 
   <artifactId>extension-filter</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
-  <url>https://wiki.jenkins-ci.org/display/JENKINS/Extension+Filter+Plugin</url>
+  <url>https://plugins.jenkins.io/extension-filter</url>
 
   <properties>
-    <jenkins.version>2.60.3</jenkins.version>
-    <java.level>8</java.level>
+    <revision>1.1</revision>
+    <changelist>-SNAPSHOT</changelist>
+    <gitHubRepo>jenkinsci/extension-filter-plugin</gitHubRepo>
+    <jenkins.version>2.375.4</jenkins.version>
   </properties>
 
   <licenses>
@@ -22,15 +24,11 @@
     </license>
   </licenses>
 
-  <ciManagement>
-      <url>https://jenkins.ci.cloudbees.com/job/plugins/job/extension-filter-plugin/</url>
-  </ciManagement>
-
   <scm>
-    <connection>scm:git:git@github.com:jenkinsci/extension-filter-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/extension-filter-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/extension-filter-plugin</url>
-  </scm>
+    <connection>scm:git:git@github.com:${gitHubRepo}.git</connection>
+    <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+    <url>https://github.com/${gitHubRepo}</url>
+  <tag>${scmTag}</tag></scm>
 
   <developers>
     <developer>
