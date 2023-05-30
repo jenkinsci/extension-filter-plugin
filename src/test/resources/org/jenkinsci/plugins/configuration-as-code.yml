@@ -1,0 +1,7 @@
+unclassified:
+  configurableExtensionFilter:
+    exclusions:
+      - context: "jenkins.model.Jenkins"
+        fqcn: "hudson.model.FreeStyleProject$DescriptorImpl"
+      - context: "jenkins.model.Jenkins"
+        fqcn: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl"

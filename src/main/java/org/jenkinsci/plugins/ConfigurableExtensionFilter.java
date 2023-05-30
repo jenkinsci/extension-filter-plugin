@@ -7,6 +7,8 @@ import hudson.model.Descriptor;
 import hudson.model.DescriptorVisibilityFilter;
 import jenkins.ExtensionFilter;
 import net.sf.json.JSONObject;
+
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.StaplerRequest;
 
 import javax.annotation.CheckForNull;
@@ -41,7 +43,7 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
 
     @Extension
     public final static DescriptorImpl DESCRIPTOR = new DescriptorImpl();
-
+    @Symbol("configurableExtensionFilter")
     public static final class DescriptorImpl extends Descriptor<ConfigurableExtensionFilter> {
 
         public DescriptorImpl() {

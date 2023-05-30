@@ -37,6 +37,29 @@
         <email>nicolas.deloof@gmail.com</email>
     </developer>
   </developers>
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.jenkins.tools.bom</groupId>
+            <artifactId>bom-2.375.x</artifactId>
+            <version>2102.v854b_fec19c92</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <dependencies>
+    <dependency>
+        <groupId>io.jenkins</groupId>
+        <artifactId>configuration-as-code</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>io.jenkins.configuration-as-code</groupId>
+        <artifactId>test-harness</artifactId>
+        <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <repositories>
     <repository>
