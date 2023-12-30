@@ -1,3 +1,11 @@
+# Extension Filter Plugin
+
+![Build](https://ci.jenkins.io/job/Plugins/job/extension-filter-plugin/job/main/badge/icon)
+![Contributors](https://img.shields.io/github/contributors/jenkinsci/extension-filter-plugin.svg?color=blue)
+[![GitHub release](https://img.shields.io/github/release/jenkinsci/extension-filter-plugin.svg?label=changelog)](https://github.com/jenkinsci/extension-filter-plugin/releases/latest)
+[![Jenkins Plugin Installs](https://img.shields.io/jenkins/plugin/i/extension-filter.svg?color=blue)](https://plugins.jenkins.io/extension-filter)
+[![GitHub license](https://img.shields.io/github/license/jenkinsci/extension-filter-plugin)](https://github.com/jenkinsci/extension-filter-plugin/blob/main/LICENSE.md)
+
 This plugin allows to filter features available on a Jenkins instance by
 disabling some Extensions/Descriptors.
 
