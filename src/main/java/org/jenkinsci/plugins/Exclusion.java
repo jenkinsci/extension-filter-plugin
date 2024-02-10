@@ -38,7 +38,7 @@ public class Exclusion extends AbstractDescribableImpl<Exclusion> {
         public String getDisplayName() {
             return "Extension";
         }
-        
+
         public FormValidation doCheckFqcn(@QueryParameter String fqcn) {
             Class definedClass;
             try {

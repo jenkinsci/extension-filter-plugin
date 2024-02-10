@@ -1,11 +1,11 @@
 package org.jenkinsci.plugins;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.jenkinsci.plugins.ConfigurableExtensionFilter.DescriptorImpl;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
-
-import static org.junit.Assert.assertNotNull;
 
 public class ConfigurableExtensionFilterTest {
 

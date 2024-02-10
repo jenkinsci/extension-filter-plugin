@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -8,16 +9,10 @@
   </parent>
 
   <artifactId>extension-filter</artifactId>
-  <name>Extension Filter</name>
   <version>${changelist}</version>
   <packaging>hpi</packaging>
+  <name>Extension Filter</name>
   <url>https://plugins.jenkins.io/extension-filter</url>
-
-  <properties>
-    <changelist>999999-SNAPSHOT</changelist>
-    <gitHubRepo>jenkinsci/extension-filter-plugin</gitHubRepo>
-    <jenkins.version>2.426.3</jenkins.version>
-  </properties>
 
   <licenses>
     <license>
@@ -28,37 +23,38 @@
   <scm>
     <connection>scm:git:git@github.com:${gitHubRepo}.git</connection>
     <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+    <tag>${scmTag}</tag>
     <url>https://github.com/${gitHubRepo}</url>
-  <tag>${scmTag}</tag></scm>
+  </scm>
 
-  <developers>
-    <developer>
-        <id>ndeloof</id>
-        <name>Nicolas De Loof</name>
-        <email>nicolas.deloof@gmail.com</email>
-    </developer>
-  </developers>
+  <properties>
+    <changelist>999999-SNAPSHOT</changelist>
+    <gitHubRepo>jenkinsci/extension-filter-plugin</gitHubRepo>
+    <jenkins.version>2.426.3</jenkins.version>
+    <spotless.check.skip>false</spotless.check.skip>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>io.jenkins.tools.bom</groupId>
-            <artifactId>bom-2.426.x</artifactId>
-            <version>2791.v707dc5a_1626d</version>
-            <scope>import</scope>
-            <type>pom</type>
-        </dependency>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.426.x</artifactId>
+        <version>2791.v707dc5a_1626d</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
     <dependency>
-        <groupId>io.jenkins</groupId>
-        <artifactId>configuration-as-code</artifactId>
-        <scope>test</scope>
+      <groupId>io.jenkins</groupId>
+      <artifactId>configuration-as-code</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>io.jenkins.configuration-as-code</groupId>
-        <artifactId>test-harness</artifactId>
-        <scope>test</scope>
+      <groupId>io.jenkins.configuration-as-code</groupId>
+      <artifactId>test-harness</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

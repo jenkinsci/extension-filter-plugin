@@ -5,20 +5,17 @@ import hudson.ExtensionComponent;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.model.DescriptorVisibilityFilter;
-import jenkins.ExtensionFilter;
-import net.sf.json.JSONObject;
-
-import org.jenkinsci.Symbol;
-import org.kohsuke.stapler.StaplerRequest;
-
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import java.util.Arrays;
+import jenkins.ExtensionFilter;
+import net.sf.json.JSONObject;
+import org.jenkinsci.Symbol;
+import org.kohsuke.stapler.StaplerRequest;
 
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
     @Extension
-    public final static ExtensionFilter EXTENSION_FILTER = new ExtensionFilter() {
+    public static final ExtensionFilter EXTENSION_FILTER = new ExtensionFilter() {
 
         @Override
         public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
@@ -26,13 +23,13 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
             if (tExtensionComponent.getInstance() == this) return true;
 
             return DESCRIPTOR.allows(tClass.getName())
-                    && DESCRIPTOR.allows(tExtensionComponent.getInstance().getClass().getName());
+                    && DESCRIPTOR.allows(
+                            tExtensionComponent.getInstance().getClass().getName());
         }
     };
 
-
     @Extension
-    public final static DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
+    public static final DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
 
         @Override
         public boolean filter(@CheckForNull Object context, @Nonnull Descriptor descriptor) {
@@ -42,7 +39,8 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
     };
 
     @Extension
-    public final static DescriptorImpl DESCRIPTOR = new DescriptorImpl();
+    public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
+
     @Symbol("configurableExtensionFilter")
     public static final class DescriptorImpl extends Descriptor<ConfigurableExtensionFilter> {
 
@@ -65,8 +63,8 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
 
         @Override
         public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
-            setExclusions(req.bindJSONToList(Exclusion.class, json.get("exclusions"))
-                    .toArray(new Exclusion[0]));
+            setExclusions(
+                    req.bindJSONToList(Exclusion.class, json.get("exclusions")).toArray(new Exclusion[0]));
             save();
             return true;
         }
@@ -98,4 +96,3 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
         }
     }
 }
-
