@@ -1,11 +1,13 @@
 package org.jenkinsci.plugins;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.ExtensionComponent;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.model.DescriptorVisibilityFilter;
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import jenkins.ExtensionFilter;
 import net.sf.json.JSONObject;
@@ -14,37 +16,17 @@ import org.kohsuke.stapler.StaplerRequest;
 
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
-    @Extension
-    public static final ExtensionFilter EXTENSION_FILTER = new ExtensionFilter() {
-
-        @Override
-        public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
-            // Don't exclude myself
-            if (tExtensionComponent.getInstance() == this) return true;
-
-            return DESCRIPTOR.allows(tClass.getName())
-                    && DESCRIPTOR.allows(
-                            tExtensionComponent.getInstance().getClass().getName());
-        }
-    };
-
-    @Extension
-    public static final DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
-
-        @Override
-        public boolean filter(@CheckForNull Object context, @Nonnull Descriptor descriptor) {
-            Class contextClass = context == null ? null : context.getClass();
-            return DESCRIPTOR.allows(contextClass, descriptor.getClass().getName());
-        }
-    };
-
-    @Extension
-    public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
+    public static /*almost final*/ DescriptorImpl DESCRIPTOR;
 
     @Symbol("configurableExtensionFilter")
+    @Extension
     public static final class DescriptorImpl extends Descriptor<ConfigurableExtensionFilter> {
 
+        @SuppressFBWarnings(
+                value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+                justification = "for backward compatibility")
         public DescriptorImpl() {
+            DESCRIPTOR = this;
             load();
         }
 
@@ -93,6 +75,29 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
                 } while (Object.class != (context = context.getSuperclass()));
             }
             return true;
+        }
+    }
+
+    @Extension
+    public static final class Filter extends ExtensionFilter {
+
+        @Override
+        public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
+            if (tExtensionComponent.getInstance() == this) return true;
+
+            return DESCRIPTOR.allows(tClass.getName())
+                    && DESCRIPTOR.allows(
+                            tExtensionComponent.getInstance().getClass().getName());
+        }
+    }
+
+    @Extension
+    public static class ConfigurableDescriptorVisibilityFilter extends DescriptorVisibilityFilter {
+
+        @Override
+        public boolean filter(@CheckForNull Object context, @NonNull Descriptor descriptor) {
+            Class<?> contextClass = context == null ? null : context.getClass();
+            return DESCRIPTOR.allows(contextClass, descriptor.getClass().getName());
         }
     }
 }
