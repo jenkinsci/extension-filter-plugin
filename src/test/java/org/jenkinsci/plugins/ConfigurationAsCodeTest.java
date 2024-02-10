@@ -1,13 +1,13 @@
 package org.jenkinsci.plugins;
 
-import org.junit.Rule;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import io.jenkins.plugins.casc.misc.ConfiguredWithCode;
 import io.jenkins.plugins.casc.misc.JenkinsConfiguredWithCodeRule;
 import jenkins.model.Jenkins;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Rule;
+import org.junit.Test;
 
 public class ConfigurationAsCodeTest {
 
@@ -17,9 +17,10 @@ public class ConfigurationAsCodeTest {
     @Test
     @ConfiguredWithCode("configuration-as-code.yml")
     public void shouldSupportConfigurationAsCode() throws Exception {
-        ConfigurableExtensionFilter.DescriptorImpl extension = Jenkins.get().getExtensionList(ConfigurableExtensionFilter.DescriptorImpl.class).get(0);
+        ConfigurableExtensionFilter.DescriptorImpl extension = Jenkins.get()
+                .getExtensionList(ConfigurableExtensionFilter.DescriptorImpl.class)
+                .get(0);
         assertNotNull(extension.getExclusions());
         assertEquals(2, extension.getExclusions().length);
     }
-
 }
