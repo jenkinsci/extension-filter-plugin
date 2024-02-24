@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.jenkinsci.plugins.ConfigurableExtensionFilter.DescriptorImpl;
@@ -22,5 +23,15 @@ public class ConfigurableExtensionFilterTest {
     public void cannotSetNull() {
         DescriptorImpl impl = new DescriptorImpl();
         impl.setExclusions(null);
+    }
+
+    @Test
+    public void testConfigRoundtrip() throws Exception {
+        DescriptorImpl impl = new DescriptorImpl();
+        impl.setExclusions(new Exclusion[0]);
+
+        j.configRoundtrip();
+
+        assertEquals(0, impl.getExclusions().length);
     }
 }
