@@ -3,6 +3,7 @@ package org.jenkinsci.plugins;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import jenkins.ExtensionFilter;
 import org.jenkinsci.plugins.ConfigurableExtensionFilter.DescriptorImpl;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,5 +34,12 @@ public class ConfigurableExtensionFilterTest {
         j.configRoundtrip();
 
         assertEquals(0, impl.getExclusions().length);
+    }
+
+    @Test
+    public void testGetExtensionFilter() {
+        ExtensionFilter extensionFilter = ConfigurableExtensionFilter.getExtensionFilter();
+
+        assertNotNull(extensionFilter);
     }
 }

@@ -1,12 +1,12 @@
 package org.jenkinsci.plugins;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.ExtensionComponent;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.model.DescriptorVisibilityFilter;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 import jenkins.ExtensionFilter;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
@@ -14,26 +14,30 @@ import org.kohsuke.stapler.StaplerRequest;
 
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
-    @Extension
-    public static final ExtensionFilter EXTENSION_FILTER = new ExtensionFilter() {
+    private static volatile ExtensionFilter EXTENSION_FILTER;
 
-        @Override
-        public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
-            // Don't exclude myself
-            if (tExtensionComponent.getInstance() == this) return true;
-
-            return DESCRIPTOR.allows(tClass.getName())
-                    && DESCRIPTOR.allows(
-                            tExtensionComponent.getInstance().getClass().getName());
+    public static synchronized ExtensionFilter getExtensionFilter() {
+        if (EXTENSION_FILTER == null) {
+            EXTENSION_FILTER = new ExtensionFilter() {
+                @Override
+                public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
+                    // Don't exclude myself
+                    return tExtensionComponent.getInstance() != this
+                            && DESCRIPTOR.allows(tClass.getName())
+                            && DESCRIPTOR.allows(
+                                    tExtensionComponent.getInstance().getClass().getName());
+                }
+            };
         }
-    };
+        return EXTENSION_FILTER;
+    }
 
     @Extension
     public static final DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
 
         @Override
-        public boolean filter(@CheckForNull Object context, @Nonnull Descriptor descriptor) {
-            Class contextClass = context == null ? null : context.getClass();
+        public boolean filter(@CheckForNull Object context, @NonNull Descriptor descriptor) {
+            Class<?> contextClass = context == null ? null : context.getClass();
             return DESCRIPTOR.allows(contextClass, descriptor.getClass().getName());
         }
     };
@@ -54,7 +58,7 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
             return exclusions.clone();
         }
 
-        public void setExclusions(@Nonnull Exclusion[] exclusions) {
+        public void setExclusions(@NonNull Exclusion[] exclusions) {
             if (exclusions == null) {
                 throw new IllegalArgumentException("Passed 'exclusions' array must be non null");
             }
@@ -82,7 +86,7 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
             return true;
         }
 
-        public boolean allows(Class context, String name) {
+        public boolean allows(Class<?> context, String name) {
             if (exclusions == null) return true;
             for (Exclusion exclusion : exclusions) {
                 if (!exclusion.getFqcn().equals(name)) continue;
