@@ -9,7 +9,7 @@
             <f:textbox name="fqcn"/>
           </f:entry>
           <f:entry title="${%Context}" field="context">
-            <f:textbox default="${null}"/>
+            <f:textbox />
           </f:entry>
           <f:entry title="">
             <div align="right">
