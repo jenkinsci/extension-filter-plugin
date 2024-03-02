@@ -14,23 +14,19 @@ import org.kohsuke.stapler.StaplerRequest;
 
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
-    private static volatile ExtensionFilter EXTENSION_FILTER;
+    @Extension
+    public static final ExtensionFilter EXTENSION_FILTER = new ExtensionFilter() {
 
-    public static synchronized ExtensionFilter getExtensionFilter() {
-        if (EXTENSION_FILTER == null) {
-            EXTENSION_FILTER = new ExtensionFilter() {
-                @Override
-                public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
-                    // Don't exclude myself
-                    return tExtensionComponent.getInstance() != this
-                            && DESCRIPTOR.allows(tClass.getName())
-                            && DESCRIPTOR.allows(
-                                    tExtensionComponent.getInstance().getClass().getName());
-                }
-            };
+        @Override
+        public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
+            // Don't exclude myself
+            if (tExtensionComponent.getInstance() == this) return true;
+
+            return DESCRIPTOR.allows(tClass.getName())
+                    && DESCRIPTOR.allows(
+                            tExtensionComponent.getInstance().getClass().getName());
         }
-        return EXTENSION_FILTER;
-    }
+    };
 
     @Extension
     public static final DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
