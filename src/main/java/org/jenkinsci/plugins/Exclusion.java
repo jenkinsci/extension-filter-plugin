@@ -8,6 +8,7 @@ import hudson.model.Descriptor;
 import hudson.util.FormValidation;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jenkins.model.Jenkins;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
@@ -46,9 +47,7 @@ public class Exclusion extends AbstractDescribableImpl<Exclusion> {
         public FormValidation doCheckFqcn(@QueryParameter String fqcn) {
             Class definedClass;
             try {
-                // TODO: Doesn't work with extension points defined in plugins. Is there a better way to ask Jenkins
-                // Core for class existence?
-                definedClass = Class.forName(fqcn);
+                definedClass = Jenkins.get().pluginManager.uberClassLoader.loadClass(fqcn);
             } catch (ClassNotFoundException e) {
                 LOGGER.log(Level.WARNING, "Failed to load class " + fqcn);
                 return FormValidation.error(Messages.Exclusion_classNotFoundMsg());
