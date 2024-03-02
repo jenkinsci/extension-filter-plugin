@@ -3,14 +3,15 @@ package org.jenkinsci.plugins;
 import static org.junit.Assert.assertEquals;
 
 import hudson.util.FormValidation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
+@WithJenkins
 public class ExclusionTest {
 
-    private Exclusion.DescriptorImpl descriptor = new Exclusion.DescriptorImpl();
-
     @Test
-    public void testGetFqcn() {
+    public void testGetFqcn(JenkinsRule jenkinsRule) {
         String fqcn = "hudson.testfqcn";
         String context = "testContext";
         Exclusion exclusion = new Exclusion(fqcn, context);
@@ -21,7 +22,7 @@ public class ExclusionTest {
     }
 
     @Test
-    public void testGetContext() {
+    public void testGetContext(JenkinsRule jenkinsRule) {
         String fqcn = "hudson.testfqcn";
         String context = "testContext";
         Exclusion exclusion = new Exclusion(fqcn, context);
@@ -32,31 +33,36 @@ public class ExclusionTest {
     }
 
     @Test
-    public void testValidDescriptorWithSample() {
+    public void testValidDescriptorWithSample(JenkinsRule jenkinsRule) {
+        Exclusion.DescriptorImpl descriptor = jenkinsRule.jenkins.getDescriptorByType(Exclusion.DescriptorImpl.class);
         FormValidation validation = descriptor.doCheckFqcn("hudson.tasks.Maven$DescriptorImpl");
         assertEquals(FormValidation.Kind.OK, validation.kind);
     }
 
     @Test
-    public void testValidExtensionWithSample() {
+    public void testValidExtensionWithSample(JenkinsRule jenkinsRule) {
+        Exclusion.DescriptorImpl descriptor = jenkinsRule.jenkins.getDescriptorByType(Exclusion.DescriptorImpl.class);
         FormValidation validation = descriptor.doCheckFqcn("hudson.model.AdministrativeMonitor");
         assertEquals(FormValidation.Kind.OK, validation.kind);
     }
 
     @Test
-    public void testValidExtensionAndDescriptorWithSample() {
+    public void testValidExtensionAndDescriptorWithSample(JenkinsRule jenkinsRule) {
+        Exclusion.DescriptorImpl descriptor = jenkinsRule.jenkins.getDescriptorByType(Exclusion.DescriptorImpl.class);
         FormValidation validation = descriptor.doCheckFqcn("jenkins.tasks.filters.EnvVarsFilterLocalRule");
         assertEquals(FormValidation.Kind.OK, validation.kind);
     }
 
     @Test
-    public void testInvalidClassWithSample() {
+    public void testInvalidClassWithSample(JenkinsRule jenkinsRule) {
+        Exclusion.DescriptorImpl descriptor = jenkinsRule.jenkins.getDescriptorByType(Exclusion.DescriptorImpl.class);
         FormValidation validation = descriptor.doCheckFqcn("hudson.Util");
         assertEquals(FormValidation.Kind.ERROR, validation.kind);
     }
 
     @Test
-    public void testClassNotFound() {
+    public void testClassNotFound(JenkinsRule jenkinsRule) {
+        Exclusion.DescriptorImpl descriptor = jenkinsRule.jenkins.getDescriptorByType(Exclusion.DescriptorImpl.class);
         FormValidation validation = descriptor.doCheckFqcn("");
         assertEquals(FormValidation.Kind.ERROR, validation.kind);
     }
