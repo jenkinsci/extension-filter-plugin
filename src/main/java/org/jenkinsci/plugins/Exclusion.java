@@ -6,6 +6,8 @@ import hudson.Util;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.FormValidation;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
@@ -13,6 +15,8 @@ import org.kohsuke.stapler.QueryParameter;
  * @author <a href="mailto:nicolas.deloof@gmail.com">Nicolas De Loof</a>
  */
 public class Exclusion extends AbstractDescribableImpl<Exclusion> {
+
+    public static final Logger LOGGER = Logger.getLogger(Exclusion.class.getName());
 
     private final String fqcn;
     private String context;
@@ -42,8 +46,11 @@ public class Exclusion extends AbstractDescribableImpl<Exclusion> {
         public FormValidation doCheckFqcn(@QueryParameter String fqcn) {
             Class definedClass;
             try {
+                // TODO: Doesn't work with extension points defined in plugins. Is there a better way to ask Jenkins
+                // Core for class existence?
                 definedClass = Class.forName(fqcn);
             } catch (ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, "Failed to load class " + fqcn);
                 return FormValidation.error(Messages.Exclusion_classNotFoundMsg());
             }
 
