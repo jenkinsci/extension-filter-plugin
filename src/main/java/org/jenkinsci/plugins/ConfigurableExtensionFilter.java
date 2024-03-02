@@ -18,7 +18,9 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
     public static final Logger LOGGER = Logger.getLogger(ConfigurableExtensionFilter.class.getName());
 
     @Extension
-    public static final ExtensionFilter EXTENSION_FILTER = new ExtensionFilter() {
+    public static class ConfigurableExtension extends ExtensionFilter {
+
+        public static final Logger LOGGER = Logger.getLogger(ConfigurableExtensionFilter.class.getName());
 
         @Override
         public <T> boolean allows(Class<T> tClass, ExtensionComponent<T> tExtensionComponent) {
@@ -35,7 +37,7 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
             }
             return allowed;
         }
-    };
+    }
 
     @Extension
     public static final DescriptorVisibilityFilter DESCRIPTOR_FILTER = new DescriptorVisibilityFilter() {
