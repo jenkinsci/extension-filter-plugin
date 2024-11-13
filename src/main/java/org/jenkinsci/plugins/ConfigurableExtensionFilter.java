@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import jenkins.ExtensionFilter;
 import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerRequest2;
 
 public class ConfigurableExtensionFilter extends AbstractDescribableImpl<ConfigurableExtensionFilter> {
 
@@ -81,7 +81,7 @@ public class ConfigurableExtensionFilter extends AbstractDescribableImpl<Configu
         }
 
         @Override
-        public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
+        public boolean configure(StaplerRequest2 req, JSONObject json) throws FormException {
             setExclusions(
                     req.bindJSONToList(Exclusion.class, json.get("exclusions")).toArray(new Exclusion[0]));
             save();
