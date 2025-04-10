@@ -1,9 +1,8 @@
 package org.jenkinsci.plugins;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import hudson.ExtensionList;
 import org.junit.jupiter.api.Test;
@@ -11,30 +10,24 @@ import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 @WithJenkins
-public class ConfigurableExtensionFilterTest {
+class ConfigurableExtensionFilterTest {
 
     @Test
-    public void nullSafety(JenkinsRule j) {
+    void nullSafety(JenkinsRule j) {
         ConfigurableExtensionFilter.DescriptorImpl impl =
                 ExtensionList.lookupSingleton(ConfigurableExtensionFilter.DescriptorImpl.class);
         assertNotNull(impl.getExclusions());
     }
 
     @Test
-    public void cannotSetNull(JenkinsRule j) {
-        try {
-            ConfigurableExtensionFilter.DescriptorImpl impl =
-                    ExtensionList.lookupSingleton(ConfigurableExtensionFilter.DescriptorImpl.class);
-            impl.setExclusions(null);
-            fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            return;
-        }
-        fail("Expected IllegalArgumentException");
+    void cannotSetNull(JenkinsRule j) {
+        ConfigurableExtensionFilter.DescriptorImpl impl =
+                ExtensionList.lookupSingleton(ConfigurableExtensionFilter.DescriptorImpl.class);
+        assertThrows(IllegalArgumentException.class, () -> impl.setExclusions(null));
     }
 
     @Test
-    public void testConfigRoundtrip(JenkinsRule j) throws Exception {
+    void testConfigRoundtrip(JenkinsRule j) throws Exception {
         ConfigurableExtensionFilter.DescriptorImpl impl =
                 ExtensionList.lookupSingleton(ConfigurableExtensionFilter.DescriptorImpl.class);
         impl.setExclusions(new Exclusion[0]);
@@ -43,8 +36,7 @@ public class ConfigurableExtensionFilterTest {
     }
 
     @Test
-    public void testExtensionNotVisible(JenkinsRule j) throws Exception {
-
+    void testExtensionNotVisible(JenkinsRule j) {
         // Get our descriptor
         ConfigurableExtensionFilter.DescriptorImpl impl =
                 ExtensionList.lookupSingleton(ConfigurableExtensionFilter.DescriptorImpl.class);
